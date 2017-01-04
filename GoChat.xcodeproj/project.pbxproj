@@ -19,6 +19,7 @@
 		79A9403A1DF40B7900BA0EDB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A940391DF40B7900BA0EDB /* LoginViewController.swift */; };
 		79A940441DF423F600BA0EDB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 79A940431DF423F600BA0EDB /* GoogleService-Info.plist */; };
 		79EED0F61E0932D8005CE68F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79EED0F41E0932D8005CE68F /* Main.storyboard */; };
+		C2B299AA1E1D324900FB71D6 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B299A91E1D324900FB71D6 /* TableViewController.swift */; };
 		F613E4375F5A268051CC4609 /* Pods_GoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 428C64DB960DBEEC81808B66 /* Pods_GoChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		79A940431DF423F600BA0EDB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		79A940471DF44E4B00BA0EDB /* GoChat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GoChat.entitlements; sourceTree = "<group>"; };
 		79EED0F51E0932D8005CE68F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C2B299A91E1D324900FB71D6 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewController.swift; path = GoChat/TableViewController.swift; sourceTree = "<group>"; };
 		D7D71F43EE50A672340D65DB /* Pods-GoChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoChat/Pods-GoChat.release.xcconfig"; sourceTree = "<group>"; };
 		E06D059826A3C0DCB109C4C3 /* libPods-GoChatTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GoChatTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				79694D091E1B4E2400CF6EF2 /* WelcomeViewController.swift */,
+				C2B299A91E1D324900FB71D6 /* TableViewController.swift */,
 				79A940391DF40B7900BA0EDB /* LoginViewController.swift */,
 				79235BE51E0801E000629D70 /* RoomsViewController.swift */,
 				794396801E18DC1800E7C145 /* RoomMapViewController.swift */,
@@ -254,7 +257,7 @@
 				TargetAttributes = {
 					79A940071DF40B5100BA0EDB = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = 2RB2X2CQ6M;
+						DevelopmentTeam = B4WK648E68;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -379,6 +382,7 @@
 				79694D0A1E1B4E2400CF6EF2 /* WelcomeViewController.swift in Sources */,
 				794396811E18DC1800E7C145 /* RoomMapViewController.swift in Sources */,
 				79A9403A1DF40B7900BA0EDB /* LoginViewController.swift in Sources */,
+				C2B299AA1E1D324900FB71D6 /* TableViewController.swift in Sources */,
 				79235BE91E08026500629D70 /* Room.swift in Sources */,
 				79A9400C1DF40B5100BA0EDB /* AppDelegate.swift in Sources */,
 				79235BE61E0801E000629D70 /* RoomsViewController.swift in Sources */,
@@ -534,7 +538,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GoChat/GoChat.entitlements;
-				DEVELOPMENT_TEAM = 2RB2X2CQ6M;
+				DEVELOPMENT_TEAM = B4WK648E68;
 				INFOPLIST_FILE = GoChat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -550,7 +554,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GoChat/GoChat.entitlements;
-				DEVELOPMENT_TEAM = 2RB2X2CQ6M;
+				DEVELOPMENT_TEAM = B4WK648E68;
 				INFOPLIST_FILE = GoChat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
