@@ -24,11 +24,12 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
     //
     
     //********抓出房間的根參考位址
+    @IBOutlet weak var subView: UIView!
     private lazy var roomRef: FIRDatabaseReference = FIRDatabase.database().reference().child("TripGifRooms").child("\(self.targetRoomNum)")
     
     var targetRoomName = String("我的房間")
     var mapView: GMSMapView!
-    var subView: UIView!
+//    var subView: UIView!
     var locationManager = CLLocationManager()
     var myLat = String()
     var myLong = String()
@@ -37,6 +38,7 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
     var senderId = String()
     let uuid: String =  UIDevice.current.identifierForVendor!.uuidString
     
+    @IBOutlet weak var pinButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         observeRoomName()                  //function從firebase中抓出所輸入房號的房間名
@@ -63,6 +65,7 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
         addUserPicture()
         print("已新增使用者")
         setupMap()          // 設置Google Map
+        subView.addSubview(pinButton)
         DispatchQueue.main.async { () -> Void in
         }
     }
@@ -113,21 +116,12 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
     // 設置Google Map的基本設定
     func setupMap(){
         let camera = GMSCameraPosition.camera(withLatitude: 20,longitude: 120, zoom: 3)
-        subView = UIView(frame: CGRect(x:0,y:0,width: view.bounds.size.width,height:300))
-        subView.backgroundColor = UIColor.blue
+//        subView = UIView(frame: CGRect(x:0,y:0,width: view.bounds.size.width,height:300))
+//        subView.backgroundColor = UIColor.blue
         mapView = GMSMapView.map(withFrame: subView.bounds, camera: camera)
         mapView.settings.compassButton = true
-        self.view.addSubview(subView)
+//        self.view.addSubview(subView)
         subView.addSubview(mapView)
-        
-        let width = subView.bounds.width;
-        let height = subView.bounds.height;
-        let img = UIImage(named: "mappin.png")
-        let myButton = UIButton(frame: CGRect(x: width*0.03, y: height*0.9, width: 50, height: 50))
-        myButton.setBackgroundImage(img, for: .normal)
-        myButton.addTarget(self, action: #selector(choosePicture), for: .touchDown)
-        myButton.setImage(img, for: .normal)
-        self.subView.addSubview(myButton)
         print("設置完地圖")
     }
     
