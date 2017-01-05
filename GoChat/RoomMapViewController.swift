@@ -27,9 +27,9 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var subView: UIView!
     private lazy var roomRef: FIRDatabaseReference = FIRDatabase.database().reference().child("TripGifRooms").child("\(self.targetRoomNum)")
     
+    var userPhotoDict = [String: String]()
     var targetRoomName = String("我的房間")
     var mapView: GMSMapView!
-//    var subView: UIView!
     var locationManager = CLLocationManager()
     var myLat = String()
     var myLong = String()
@@ -141,7 +141,6 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func observePhoto(){
-        // 裁切照片
         self.roomRef.child("photo").observe(FIRDataEventType.childAdded){
             (snapshot: FIRDataSnapshot) in
             if let dict = snapshot.value as? [String: AnyObject]{
@@ -153,6 +152,8 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
                 let data = NSData(contentsOf: url as! URL)
                 print("photo data\(data)")
                 var newImage = UIImage(data: data! as Data)!
+                
+                
                 
                 newImage = self.ResizeImage(image: newImage, targetSize: CGSize(width: 120, height:120))
                 newImage = self.cropToBounds(image: newImage, width: 80, height: 80)
