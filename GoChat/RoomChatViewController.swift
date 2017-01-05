@@ -199,8 +199,8 @@ class RoomChatViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
         let message = messages[indexPath.item]
         let bubbleFactory = JSQMessagesBubbleImageFactory()
-        if message.senderId == self.senderId{
-            return bubbleFactory?.outgoingMessagesBubbleImage(with: UIColor(red:0.72, green:0.71, blue:0.71, alpha:1.0))
+        if message.senderId == uuid{
+            return bubbleFactory?.outgoingMessagesBubbleImage(with: UIColor(red:0.90, green:0.57, blue:0.44, alpha:1.0))
         }else{
             return bubbleFactory?.incomingMessagesBubbleImage(with: UIColor(red:0.72, green:0.71, blue:0.71, alpha:1.0))
         }

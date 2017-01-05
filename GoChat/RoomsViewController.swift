@@ -13,10 +13,12 @@ import FirebaseDatabase
 class RoomsViewController: UIViewController {
     
     // MARK: Properties
+    var existRoom: Array<String> = []
+    var userRoom = [String: Int]()
     var senderDisplayName: String?
     var newRoomTextField: UITextField?
     let uuid: String =  UIDevice.current.identifierForVendor!.uuidString
-    
+    var testValid = false
     private var roomRefHandle: FIRDatabaseHandle?
     private var rooms: [Room] = []  //本意是在tableview上列出所有已存在房間
     
@@ -30,27 +32,36 @@ class RoomsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = senderDisplayName!   //將最上面標題設為 使用者暱稱
-        //observeRoom()
+        observeRoom()
     }
     deinit {
         if let refHandle = roomRefHandle {
             roomRef.removeObserver(withHandle: refHandle)
         }
     }
-    
+
     // MARK :Actions
     //登出
-//    func observeRoom(){
-//        FIRDatabase.database().reference().child("TripGifUsers").child(uuid).child("myRooms").observe(.value, with:{
-//            snapshot in
-//            print("目前有的房間")
-//            for child in snapshot.children{
-//                let existRoom = (child as AnyObject).key as String
-//                print(existRoom)
-//            }
-//        })
-//        
-//    }
+    func observeRoom(){
+    FIRDatabase.database().reference().child("TripGifUsers").child(uuid).child("myRooms").observe(.value, with:{
+            snapshot in
+//            print("目前使用者有的房間")
+            for child in snapshot.children{
+                let room = (child as AnyObject).key as String
+                print(room)
+            }
+        })
+        FIRDatabase.database().reference().child("TripGifRooms").observe(.value, with:{
+            snapshot in
+//            print("目前存在的房間")
+            for child in snapshot.children{
+                let room = (child as AnyObject).key as String
+                self.existRoom.append(room)
+                print(room)
+            }
+        })
+
+    }
     
     @IBAction func EditProfile(_ sender: Any) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -61,16 +72,12 @@ class RoomsViewController: UIViewController {
     @IBAction func NewRoom(_ sender: Any) {
         if InputRoomName?.text != ""{                                   //房間名的input field不可為空
             let roomName = self.InputRoomName.text                      //接到的房間名
-            let randomRoomNum:UInt32 = arc4random_uniform(9999)         //亂數產生四位數房號
-//            var randomRoomNum:UInt32 = 8212
-//            var canCreate:Bool = false
-//            while(canCreate == false){
-//                if(validRoomNum(roomNum: randomRoomNum) == false){       //如果檢查在資料庫不重複==false
-//                    randomRoomNum = arc4random_uniform(9999)             //蓋掉舊的創一個新的四位數房號
-//                }else{
-//                    canCreate = true
-//                }
-//            }
+            var randomRoomNum:UInt32 = arc4random_uniform(9999)         //亂數產生四位數房號
+            validRoomNum(roomNum: String(randomRoomNum))
+            while(testValid==true){
+                randomRoomNum = arc4random_uniform(9999)
+                validRoomNum(roomNum: String(randomRoomNum))
+            }
             
             let newRoomRef = roomRef.child(String(randomRoomNum))       //定義firebase裡的reference
             let roomItem = ["RoomName":roomName!, "RoomNum": String(describing: randomRoomNum)]
@@ -104,19 +111,24 @@ class RoomsViewController: UIViewController {
             }
             // 刷新user裡的room資料，擁有此房則true
             let roomNumber = (self.InputRoomNum.text)!
+            validRoomNum(roomNum: roomNumber)
+            print("房號是否存在\(self.testValid)")
+            if(self.testValid == false){
+                let alert = UIAlertController(title: "提示", message: "輸入的房號不存在", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "確定", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            else{
             FIRDatabase.database().reference().child("TripGifUsers").child(uuid).child("myRooms").child(roomNumber).setValue(true)
             roomRef.observeSingleEvent(of: .value, with: { (snapshot) in
                 if snapshot.value is NSNull{
                     print("不存在任何房間！")
                 }else{
-                    for child in snapshot.children{
-                        let existRoom = (child as AnyObject).key as String
-                        print("現有房間 " + existRoom)
-                    }
-                    //let wantedRoomSender = self.rooms 我把sender弄成self就可以了，原本是 wantedRoomSender
                     print("輸入了想進的房號是 " + self.InputRoomNum.text!)
                 }
             })
+        }
         }else{
         //房號空白 失敗小視窗
             let alert = UIAlertController(title: "請務必輸入房號", message: "沒輸房號怎麼進房呢？", preferredStyle: UIAlertControllerStyle.alert)
@@ -128,24 +140,19 @@ class RoomsViewController: UIViewController {
     
     // MARK: Firebase related methods
     
-    // 檢測重複房號的function，firebase中房號沒重複這個function便會回傳true～～～～～～～～～～～～尚未完成
-    private func validRoomNum(roomNum: UInt32) -> Bool{
-        let testRoomNum = String(describing: roomNum)
-        var testValid = false
-        FIRDatabase.database().reference().child("TripGifRooms").observe(.value, with:{
-            snapshot in
-            if let observeRoom = snapshot.value as? [String:AnyObject]
-            {
-                print(observeRoom)
-                let check = (observeRoom["RoomNum"]as! String)
-                if(testRoomNum == check){
-                    testValid = false
-                }else{
-                    testValid = true
-                }
+// 檢查房號是否可用，若房號不在資料庫中，則為false，若找到房號，則回傳true
+    private func validRoomNum(roomNum: String){
+   
+        for room in existRoom{
+//            print("目前有的房間\(room)")
+            if(roomNum == room){
+                self.testValid = true
+                return
             }
-        })
-        return testValid
+            else{
+                self.testValid = false
+            }
+        }
     }
     
     // MARK: Navigation

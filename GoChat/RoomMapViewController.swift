@@ -137,6 +137,7 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
         mapView.clear()
         refreshLocation()
         observeLocation()
+        observePhoto()
     }
     
     func observePhoto(){
@@ -227,8 +228,6 @@ class RoomMapViewController: UIViewController, UIImagePickerControllerDelegate, 
                 // 檢查經緯度是否存在
                 let latitude = "\(dict["latitude"]!)"
                 let longitude = "\(dict["longitude"]!)"
-                //print("user latitude\(latitude)")
-                //print("user latitude\(longitude)")
                 marker.position = CLLocationCoordinate2DMake(Double(latitude)!, Double(longitude)!)
                 marker.map = self.mapView
                 
